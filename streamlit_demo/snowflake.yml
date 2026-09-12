@@ -1,0 +1,10 @@
+definition_version: '2'
+entities:
+  customers_dashboard:
+    type: streamlit
+    identifier:
+      name: customers_dashboard
+    main_file: app.py
+    stage: dev_deployment
+    query_warehouse: SNOWFLAKE_LEARNING_WH
+
