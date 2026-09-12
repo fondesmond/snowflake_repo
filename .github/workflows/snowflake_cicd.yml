@@ -1,0 +1,37 @@
+name: Snowflake CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      # The CLI automatically reads these environment variables
+      SNOWFLAKE_ACCOUNT: ${{ secrets.SF_ACCOUNT }}
+      SNOWFLAKE_USER: ${{ secrets.SF_USER }}
+      SNOWFLAKE_PASSWORD: ${{ secrets.SF_PASSWORD }}
+      SNOWFLAKE_ROLE: "ACCOUNTADMIN"
+      SNOWFLAKE_WAREHOUSE: "SNOWFLAKE_LEARNING_WH"
+      SNOWFLAKE_DATABASE: "DE_TUTORIAL"
+      SNOWFLAKE_SCHEMA: "RAW"
+      
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Snowflake CLI
+        uses: Snowflake-Labs/snowflake-cli-action@v1
+        with:
+          cli-version: "latest"
+
+      - name: Execute Infrastructure Setup
+        run: snow sql -f setup.sql
+
+      - name: Build and Deploy Snowpark App
+        run: |
+          cd snowpark_demo
+          snow snowpark build
+          snow snowpark deploy
