@@ -31,6 +31,7 @@ jobs:
           database = "DE_TUTORIAL"
           schema = "RAW"
           EOF
+          chmod 0600 ~/.snowflake/config.toml
 
       - name: Execute Infrastructure Setup
         run: snow sql -f setup.sql
