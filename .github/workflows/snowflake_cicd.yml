@@ -40,4 +40,4 @@ jobs:
         run: |
           cd snowpark_demo
           snow snowpark build
-          snow snowpark deploy
+          snow snowpark deploy --replace
